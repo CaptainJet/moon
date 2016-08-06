@@ -1,4 +1,13 @@
-build/
+# build
+/build
+
+# yard doc
+/.yard
+/.yardoc
+/doc
+
+# coverage, if any
+/coverage
 
 # Compiled Object files
 *.slo
@@ -21,3 +30,13 @@ build/
 *.exe
 *.out
 *.app
+
+# CMake files
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+# auto-generated files
+/modules/graphics/mrblib/shaders.rb

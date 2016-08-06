@@ -1,0 +1,60 @@
+language: cpp
+sudo: false
+addons:
+  apt:
+    sources:
+    - george-edison55-precise-backports
+    packages:
+    - cmake
+    - cmake-data
+    - freeglut3-dev
+    - freetype
+    - libdevil-dev
+    - libgles2-mesa-dev
+    - libglew-dev
+    - libglu1-mesa-dev
+    - libopenal-dev
+    - libx11-dev
+    - libxi-dev
+    - libxmu-dev
+    - libyaml-dev
+    - xorg-dev
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      env: MOON_MRUBY_TOOLCHAIN=gcc
+
+    - os: linux
+      compiler: clang
+      env:
+      - MOON_MRUBY_TOOLCHAIN=clang
+      - LD_LIBRARY_PATH: "${TRAVIS_BUILD_DIR}/build/vendor/glfw/src"
+
+    - os: osx
+      compiler: clang
+      env:
+      - MOON_MRUBY_TOOLCHAIN=clang
+      - LD_LIBRARY_PATH: "${TRAVIS_BUILD_DIR}/build/vendor/glfw/src"
+
+branches:
+  only:
+  - master
+  - coverity_scan
+
+before_install:
+  - git submodule update --init --recursive --depth=1
+
+install:
+  - ./.travis/install.sh
+
+before_script:
+  - ruby --version
+
+cache:
+  directories:
+  - vendor/bundle
+
+script:
+  - ./.travis/build.sh
+  - ruby travis/check_libs.rb
